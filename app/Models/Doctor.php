@@ -21,6 +21,7 @@ class Doctor extends Model
 
         return Doctor::
         where("del_flg","=",0)
+        ->orderBy("doctors.id", "DESC")
         ->paginate(5);
     }
 
