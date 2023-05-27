@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -74,4 +75,6 @@ Route::get("/lang/{locale}", function ($locale) {
 });
 
 Route::resource("/doctor", DoctorController::class);
+
+Route::resource("/history", HistoryController::class);
 

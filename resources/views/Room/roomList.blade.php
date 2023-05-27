@@ -154,8 +154,6 @@
                                                 </span>
                                             @endif
                                         </div>
-    
-    
                                     </td>
                                 </tr>
                             @empty

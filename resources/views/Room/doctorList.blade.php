@@ -67,14 +67,23 @@
     <div class="p-4 sm:ml-64">
 
         <div class="relative overflow-x-auto">
+
+            {{-- Add History Button --}}
             <a href="/doctor/create">
-                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('appoint.add') }}</button>
+                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 ml-3 float-right">Add History</button>
+            </a>
+
+            {{-- add Doctor Button --}}
+            <a href="/doctor/create">
+                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('appoint.add') }} Doctor</button>
             </a>
 
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <tr class="text-lg text-white bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
                     <td scope="col" class="px-6 py-3">
-                        {{ __('appoint.Drname') }}
+                        <a href="">
+                            {{ __('appoint.Drname') }}
+                        </a>
                     </td>
                     <td scope="col" class="px-6 py-3">
                         {{ __('hospital.age') }}

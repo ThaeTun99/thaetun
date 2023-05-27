@@ -70,7 +70,13 @@ class DoctorController extends Controller
         $doctorInfo = $doctor->getDoctorById($id);
         $Drspecial = $doctorInfo->doctorInfo;
 
+        // $history = $doctorInfo->histories;
+
         // dd($doctorInfo);
+
+        foreach ($doctorInfo->histories as $key => $history) {
+            $histories =  $history;
+        }
         return view("Room.editDoctor",[
             "doctorInfo" => $doctorInfo
         ]);
@@ -81,6 +87,7 @@ class DoctorController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // dd($request->all());
         // dd("update id is $id");
 
         $doctor = new Doctor();

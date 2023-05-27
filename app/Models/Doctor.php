@@ -41,7 +41,30 @@ class Doctor extends Model
         $doctor->doctorInfo->liscen = $request->liscen;
 
         $doctor->save();
+        // $doctor->doctorInfo->save();
+        $history = $doctor->histories->where("id",1)->first();
+        if($history){
+        $history->hospitalName = $request->hospitalName;
+        $history->level = $request->level;
+        $history->startDate = $request->startDate;
+        $history->endDate = $request->endDate;
+        $history->exper = $request->exper;
+        $history->save();
+
+        }
+        $history = $doctor->histories->where("id",2)->first();
+        if($history){
+            $history->hospitalName = $request->hospitalName2;
+            $history->level = $request->level2;
+            $history->startDate = $request->startDate2;
+            $history->endDate = $request->endDate2;
+            $history->exper = $request->exper2;
+            
+            $history->save();
+        }
+        
         $doctor->doctorInfo->save();
+
     }
 
     public function DeleteDoctorById($id){
@@ -60,6 +83,11 @@ class Doctor extends Model
         return $this->hasOne(DoctorInfo::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
     public function insert(Request $request){
         $doctor = new Doctor();
         $doctor->name = $request->name;
@@ -74,6 +102,25 @@ class Doctor extends Model
         $doctorInfo->experience = $request->experience;
         $doctorInfo->liscen = $request->liscen;
         
+        // $doctor->doctorInfo()->save($doctorInfo);
+
+        $history1 = new History();
+        $history1->hospitalName = $request->hospitalName;
+        $history1->level = $request->level;
+        $history1->startDate = $request->startDate;
+        $history1->endDate = $request->endDate;
+        $history1->exper = $request->exper;
+
+        $history2 = new History();
+        $history2->hospitalName = $request->hospitalName2;
+        $history2->level = $request->level2;
+        $history2->startDate = $request->startDate2;
+        $history2->endDate = $request->endDate2;
+        $history2->exper = $request->exper2;
+
+        
         $doctor->doctorInfo()->save($doctorInfo);
+        $doctor->histories()->saveMany([$history1,$history2]);
+
     }
 }
