@@ -22,10 +22,9 @@ class DoctorController extends Controller
             $doctor_info = $doctor->doctorInfo;
         }
         // dd($doctorList);
-        return View("Room.doctorList",[
+        return View("Room.doctorList", [
             "doctor" => $doctorList,
         ]);
-
     }
 
     /**
@@ -47,7 +46,6 @@ class DoctorController extends Controller
         $doctor = new Doctor();
         $doctor->insert($request);
 
-
         return redirect("/doctor");
     }
 
@@ -56,7 +54,22 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $doctor = new Doctor();
+        $doctorInfo = $doctor->getDoctorById($id);
+        
+        foreach ($doctorInfo->histories as $key => $history) {
+            $histories =  $history;
+        }
+
+        $doctorData = Doctor::join('doctor_infos', 'doctors.id', '=', 'doctor_infos.doctor_id')
+            ->join('histories', 'doctors.id', '=', 'histories.doctor_id')
+            ->select('doctors.*', 'doctor_infos.special', 'doctor_infos.experience', 'doctor_infos.liscen','histories.hospitalName','histories.level','histories.startDate','histories.endDate','histories.exper')
+            ->find($id);
+
+        return view("Room.showDr", [
+            "drData" => $doctorData,
+            "doctorInfo" => $doctorInfo
+        ]);
     }
 
     /**
@@ -77,7 +90,12 @@ class DoctorController extends Controller
         foreach ($doctorInfo->histories as $key => $history) {
             $histories =  $history;
         }
-        return view("Room.editDoctor",[
+
+        if($doctorInfo->histories == null){
+            abort(404);
+        }
+
+        return view("Room.editDoctor", [
             "doctorInfo" => $doctorInfo
         ]);
     }
@@ -91,7 +109,7 @@ class DoctorController extends Controller
         // dd("update id is $id");
 
         $doctor = new Doctor();
-        $doctor->updateDoctorById($id,$request);
+        $doctor->updateDoctorById($id, $request);
 
         return redirect("/doctor");
     }

@@ -22,6 +22,11 @@ return[
     "Myanmar" => "Myanmar",
     "English" => "English",
     "Japan" => "Japan",
+    "doctor" => "Doctor",
+    "History" => "History",
+    "hospitalName" => "Hospital Name",
+    "level" => "Level",
+    "editHistory" => "Edit History",
 ]
 
 

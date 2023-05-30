@@ -22,6 +22,11 @@ return[
     "Myanmar" => "ミャンマー",
     "English" => "英語",
     "Japan" => "日本",
+    "doctor" => "医者",
+    "History" => "歴史",
+    "hospitalName" => "歴史 名前",
+    "level" => "レベル",
+    "editHistory" => "修正 歴史",
 ]
 
 

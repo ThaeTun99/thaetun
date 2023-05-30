@@ -57,7 +57,8 @@
                                 d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap text-black hover:text-black">{{ __('hospital.Dr.list') }}</span>
+                        <span
+                            class="flex-1 ml-3 whitespace-nowrap text-black hover:text-black">{{ __('hospital.Dr.list') }}</span>
                     </a>
                 </li>
             </ul>
@@ -70,20 +71,18 @@
 
             {{-- Add History Button --}}
             <a href="/doctor/create">
-                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 ml-3 float-right">Add History</button>
+                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 ml-3 float-right">{{ __('hospital.History') }} {{ __('appoint.add') }}</button>
             </a>
 
             {{-- add Doctor Button --}}
             <a href="/doctor/create">
-                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('appoint.add') }} Doctor</button>
+                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('hospital.doctor') }} {{ __('appoint.add') }}</button>
             </a>
 
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <tr class="text-lg text-white bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
                     <td scope="col" class="px-6 py-3">
-                        <a href="">
-                            {{ __('appoint.Drname') }}
-                        </a>
+                        {{ __('appoint.Drname') }}
                     </td>
                     <td scope="col" class="px-6 py-3">
                         {{ __('hospital.age') }}
@@ -110,7 +109,9 @@
                     @forelse ($doctor as $dr)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="px-6 py-4">
-                                Dr.{{ $dr->name }}
+                                <a href="/doctor/{{ $dr->id }}" class="underline text-blue-800 font-bold">
+                                    Dr.{{ $dr->name }}
+                                </a>
                             </td>
                             <td class="px-6 py-4">
                                 {{ $dr->age }}
@@ -137,7 +138,7 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <form action="/doctor/{{ $dr->id }}" method="post">
-                                    @method("DELETE")
+                                    @method('DELETE')
                                     @csrf
                                     <button type="submit" class="ml-4 text-red-800 underline font-bold">
                                         {{ __('hospital.delete') }}
@@ -156,8 +157,9 @@
     </div>
 
     <div class="mt-4 mr-5">
-        {{ $doctor->links()}}
+        {{ $doctor->links() }}
     </div>
+
 </body>
 
 </html>

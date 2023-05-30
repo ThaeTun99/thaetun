@@ -19,17 +19,18 @@ class Doctor extends Model
         // // ->take(5)
         // ->get();
 
-        return Doctor::
-        where("del_flg","=",0)
-        ->orderBy("doctors.id", "DESC")
-        ->paginate(5);
+        return Doctor::where("del_flg", "=", 0)
+            ->orderBy("doctors.id", "DESC")
+            ->paginate(5);
     }
 
-    public function getDoctorById($id){
+    public function getDoctorById($id)
+    {
         return Doctor::find($id);
     }
 
-    public function updateDoctorById($id,Request $request){
+    public function updateDoctorById($id, Request $request)
+    {
         $doctor = Doctor::find($id);
         $doctor->name = $request->name;
         $doctor->age = $request->age;
@@ -41,41 +42,38 @@ class Doctor extends Model
         $doctor->doctorInfo->liscen = $request->liscen;
 
         $doctor->save();
-        // $doctor->doctorInfo->save();
-        $history = $doctor->histories->where("id",1)->first();
-        if($history){
-        $history->hospitalName = $request->hospitalName;
-        $history->level = $request->level;
-        $history->startDate = $request->startDate;
-        $history->endDate = $request->endDate;
-        $history->exper = $request->exper;
-        $history->save();
 
+        $historyData = $request->only(['hospitalName', 'level', 'startDate', 'endDate', 'exper']);
+        $historyCount = count($historyData['hospitalName']);
+        $updatedHistories = [];
+
+        for ($i = 0; $i < $historyCount; $i++) {
+            if (isset($doctor->histories[$i])) {
+                $hist = new History();
+                $hist = $doctor->histories[$i];
+                $hist->hospitalName = $historyData['hospitalName'][$i];
+                $hist->level = $historyData['level'][$i];
+                $hist->startDate = $historyData['startDate'][$i];
+                $hist->endDate = $historyData['endDate'][$i];
+                $hist->exper = $historyData['exper'][$i];
+                $updatedHistories[] = $hist;
+            }
         }
-        $history = $doctor->histories->where("id",2)->first();
-        if($history){
-            $history->hospitalName = $request->hospitalName2;
-            $history->level = $request->level2;
-            $history->startDate = $request->startDate2;
-            $history->endDate = $request->endDate2;
-            $history->exper = $request->exper2;
-            
-            $history->save();
-        }
-        
+
         $doctor->doctorInfo->save();
-
+        $doctor->histories()->saveMany($updatedHistories);
     }
 
-    public function DeleteDoctorById($id){
+    public function DeleteDoctorById($id)
+    {
         // $doctor = Doctor::find($id);
         // $doctor->delete();
 
         DB::table("doctors")
-        ->where("id","=",$id)
-        ->update([
-            "del_flg" => 1
-        ]);
+            ->where("id", "=", $id)
+            ->update([
+                "del_flg" => 1
+            ]);
     }
 
     public function doctorInfo()
@@ -88,7 +86,8 @@ class Doctor extends Model
         return $this->hasMany(History::class);
     }
 
-    public function insert(Request $request){
+    public function insert(Request $request)
+    {
         $doctor = new Doctor();
         $doctor->name = $request->name;
         $doctor->age = $request->age;
@@ -96,31 +95,30 @@ class Doctor extends Model
         $doctor->phone = $request->phone;
         $doctor->save();
 
-
         $doctorInfo = new DoctorInfo();
         $doctorInfo->special = $request->special;
         $doctorInfo->experience = $request->experience;
         $doctorInfo->liscen = $request->liscen;
-        
-        // $doctor->doctorInfo()->save($doctorInfo);
 
-        $history1 = new History();
-        $history1->hospitalName = $request->hospitalName;
-        $history1->level = $request->level;
-        $history1->startDate = $request->startDate;
-        $history1->endDate = $request->endDate;
-        $history1->exper = $request->exper;
-
-        $history2 = new History();
-        $history2->hospitalName = $request->hospitalName2;
-        $history2->level = $request->level2;
-        $history2->startDate = $request->startDate2;
-        $history2->endDate = $request->endDate2;
-        $history2->exper = $request->exper2;
-
-        
         $doctor->doctorInfo()->save($doctorInfo);
-        $doctor->histories()->saveMany([$history1,$history2]);
 
+        if (is_array($request["hospitalName"])) {
+            $count = count($request["hospitalName"]);
+
+            for ($i = 0; $i < $count; $i++) {
+                $history = new History();
+                $history->hospitalName = $request["hospitalName"][$i];
+                $history->level = $request["level"][$i];
+                $history->startDate = $request["startDate"][$i];
+                $history->endDate = $request["endDate"][$i];
+                $history->exper = $request["exper"][$i];
+
+                $histories[] = $history;
+                $doctor->histories()->saveMany($histories);
+            }
+            $doctor->doctorInfo()->save($doctorInfo);
+            $doctor->histories()->saveMany($histories);
+        }
+        $doctor->doctorInfo()->save($doctorInfo);
     }
 }

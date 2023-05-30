@@ -9,13 +9,13 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <title>{{ __('hospital.edit') }}</title>
     @vite('resources/css/app.css')
+    {{-- @vite('resources/js/historyTemplate.js') --}}
 </head>
 
 <body>
     <div class="m-10">
         <h1 class="text-xl underline decoration-green-500 mb-4">{{ __('hospital.edit') }}</h1>
-        <form action="/doctor/{{ $doctorInfo->id }}" method="POST">
-
+        <form action="/doctor/{{ $doctorInfo->id }}" method="POST" onsubmit="return validateForm()">
             @method('PUT')
             @csrf
             <div class="relative z-0 w-full my-8 group">
@@ -90,80 +90,40 @@
             </div>
 
             {{-- History --}}
-            <h4 class="underline decoration-blue-800 text-xl">History</h4>
-            <div class=" md:grid-cols-2 flex text-center my-10">
-                <div>
-                    <input type="text" id="hospitalName"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Hospital Name" name="hospitalName"
-                        value="{{ $doctorInfo->histories[0]->hospitalName }}">
+            <h4 class="underline decoration-blue-800 text-xl"> {{ __('hospital.editHistory') }}</h4>
+            @foreach ($doctorInfo->histories as $history)
+                <div class="md:grid-cols-2 flex text-center my-10">
+                    <div class="flex">
+                        <div>
+                            <input type="text" id="hospitalName"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                name="hospitalName[]" value="{{ $history->hospitalName }}">
+                        </div>
+                        <div class="mx-6">
+                            <input type="text" id="level"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                name="level[]" value="{{ $history->level }}">
+                        </div>
+                        <div>
+                            <input type="date" id="startDate"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm start-date  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                name="startDate[]" value="{{ $history->startDate }}">
+                        </div>
+                        <div class="mx-6">
+                            <input type="date" id="endDate"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm end-date rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                name="endDate[]" value="{{ $history->endDate }}">
+                        </div>
+                        <div>
+                            <input type="text" id="result"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm experience-div rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                name="exper[]" value="{{ $history->exper }}">
+                        </div>
+                    </div>
                 </div>
-                <div class="mx-6">
-                    <input type="text" id="level"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="level" name="level" value="{{ $doctorInfo->histories[0]->level }}">
-                </div>
-                <div>
-                    <input type="date" id="startDate"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Start Date" name="startDate" value="{{ $doctorInfo->histories[0]->startDate }}">
-                </div>
-                <div class="mx-6">
-                    <input type="date" id="restDate"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Rest Date" name="endDate" value="{{ $doctorInfo->histories[0]->endDate }}">
-                </div>
-                <div>
-                    <input type="text" id="exp"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Experience" name="exper" value="{{ $doctorInfo->histories[0]->exper }}">
-                </div>
-
-                <a href="" class="ml-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-10 h-10 text-blue-900">
-                        <path fill="currentColor"
-                            d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16Zm-24 104h-48v48a8 8 0 0 1-16 0v-48H72a8 8 0 0 1 0-16h48V72a8 8 0 0 1 16 0v48h48a8 8 0 0 1 0 16Z" />
-                    </svg>
-                </a>
-
-                <div class="ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-10 h-10 text-blue-900">
-                        <path fill="currentColor"
-                            d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16Zm-24 104H72a8 8 0 0 1 0-16h112a8 8 0 0 1 0 16Z" />
-                    </svg>
-                </div>
-            </div>
-
-            {{-- 2 --}}
-            <div class="md:grid-cols-2 flex mt-10">
-                <div class="">
-                    <input type="text" id="hospitalName"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Hospital Name" name="hospitalName2"
-                        value="{{ $doctorInfo->histories[1]->hospitalName }}">
-                </div>
-                <div class="mx-6">
-                    <input type="text" id="level"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="level" name="level2" value="{{ $doctorInfo->histories[1]->level }}">
-                </div>
-                <div>
-                    <input type="date" id="startDate"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Start Date" name="startDate2"
-                        value="{{ $doctorInfo->histories[1]->startDate }}">
-                </div>
-                <div class="mx-6">
-                    <input type="date" id="restDate"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Rest Date" name="endDate2" value="{{ $doctorInfo->histories[1]->endDate }}">
-                </div>
-                <div>
-                    <input type="text" id="exp"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Experience" name="exper2" value="{{ $doctorInfo->histories[1]->exper }}">
-                </div>
-            </div>
+            @endforeach
+            
+    </div>
 
     <a href="/doctor"
         class="text-white py-3 px-6  ml-10 mr-3 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -175,10 +135,28 @@
         class="text-white bg-blue-700 hover:bg-blue-800 mb-10 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         {{ __('room.save') }}
     </button>
+    </div>
     </form>
 
     </div>
+    {{-- <script>
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const experInput = document.getElementById('result');
+        endDateInput.addEventListener('input', calculateDifference);
 
+        function calculateDifference() {
+
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            var startYear = startDate.getFullYear();
+            var endYear = endDate.getFullYear();
+            var differenceInYears = endYear - startYear;
+
+            experInput.value = differenceInYears;
+        }
+    </script> --}}
 </body>
 
 </html>
