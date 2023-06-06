@@ -17,8 +17,13 @@
 <body class="bg-gray-300">
     <div class="m-10">
         <h1 class="text-xl underline decoration-green-500 mb-4">{{ __('appoint.add') }}</h1>
-        <form action="/doctor" method="POST" onsubmit="return validateForm()">
+        <form action="/doctor" method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
             @csrf
+            <div>
+                <img src="../storage/doctorProfile/default-image.jpg" class="w-40 my-5 rounded-lg" alt="image description" id="preview">
+                <input class="block w-auto text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="drfile" name="drimage" type="file" multiple>
+            </div>
             <div class="relative z-0 w-full my-8 group">
                 <input type="text" name="name" id="name"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-500 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -97,26 +102,22 @@
                     <div class="inputBox">
                         <input type="text"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ __('hospital.hospitalName') }}" name="hospitalName[]"
-                            required>
+                            placeholder="{{ __('hospital.hospitalName') }}" name="hospitalName[]" required>
                     </div>
                     <div class="mx-6">
                         <input type="text"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="{{ __('hospital.level') }}" name="level[]"
-                            required>
+                            placeholder="{{ __('hospital.level') }}" name="level[]" required>
                     </div>
                     <div>
                         <input type="date" id="startDate"
                             class="bg-gray-50 border border-gray-300 text-gray-900 start-date text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Start Date" name="startDate[]"
-                            required>
+                            placeholder="Start Date" name="startDate[]" required>
                     </div>
                     <div class="mx-6">
                         <input type="date" id="endDate"
                             class="bg-gray-50 border border-gray-300 text-gray-900 end-date text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Rest Date" name="endDate[]"
-                            required>
+                            placeholder="Rest Date" name="endDate[]" required>
                     </div>
                     <div class="">
                         <input type="text" id="result"
@@ -126,7 +127,8 @@
 
                     {{-- plus button --}}
                     <div class="ml-5 template-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-10 h-10 text-blue-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+                            class="w-10 h-10 text-blue-900">
                             <path fill="currentColor"
                                 d="M208 32H48a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16Zm-24 104h-48v48a8 8 0 0 1-16 0v-48H72a8 8 0 0 1 0-16h48V72a8 8 0 0 1 16 0v48h48a8 8 0 0 1 0 16Z" />
                         </svg>
@@ -155,7 +157,21 @@
     </form>
     </div>
 
-
+    <script>
+        document.getElementById('drfile').onchange = function(evt) {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+    
+            // FileReader support
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function() {
+                    document.getElementById('preview').src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
+            }
+        }
+    </script>
 </body>
 
 </html>

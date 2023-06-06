@@ -16,6 +16,7 @@
     <div
         class="max-w-sm mx-auto  mt-10 p-6 bg-white text-gray-700 border justify-center  border-gray-200 rounded-lg justify shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="my-auto">
+            <img src="{{ asset('storage/'.$roomInfo->r_photo) }}" class="w-auto my-5 rounded-lg" alt="image description" id="preview">
             <p>{{ __('room.roomNo') }} : <span class="text-black font-bold">{{ $roomInfo->roomNumber }}</span></p>
             <p class="py-5">{{ __('room.title') }}  : <span class="text-black font-bold">{{ $roomInfo->status }}</span></p>
             <p>{{ __('room.total') }} : <span class="text-black font-bold">{{ $roomInfo->total }}</span></p>

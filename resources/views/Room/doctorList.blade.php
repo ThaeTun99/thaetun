@@ -29,38 +29,57 @@
         </svg>
     </button>
 
-    <aside id="default-sidebar"
+    <aside id="sidebar-multi-level-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-900 dark:bg-gray-800">
-            <h3 class="text-2xl text-white text-center mt-8">{{ __('hospital.title') }}</h3>
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-200 dark:bg-gray-800">
+            <h3 class="text-2xl text-blue-800 font-bold mb-5 text-center mt-8">{{ __('hospital.title') }}</h3>
             <ul class="space-y-2 font-medium">
-                <li class="my-8">
+                {{-- dashboard link --}}
+                <li>
                     <a href="/home"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
-                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            class="w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
-                        <span class="ml-3 text-white  hover:text-black">{{ __('hospital.dashboard') }}</span>
+                        <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
-                <li class="mt-10 bg-gray-100  rounded-lg">
-                    <a href="/doctor/create"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                {{-- doctor link --}}
+                <li>
+                    <a href="/doctor"
+                        class="flex items-center p-2 text-gray-900 rounded-lg  bg-blue-300 dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
-                            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            class="flex-shrink-0 w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                             </path>
                         </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Doctors</span>
                         <span
-                            class="flex-1 ml-3 whitespace-nowrap text-black hover:text-black">{{ __('hospital.Dr.list') }}</span>
+                            class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-white bg-blue-900 rounded-full dark:bg-gray-700 dark:text-gray-300">List</span>
                     </a>
                 </li>
+
+                {{-- patients link --}}
+                <li>
+                    <a href="/patient"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="flex-shrink-0 w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Patients</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </aside>
@@ -71,18 +90,21 @@
 
             {{-- Add History Button --}}
             <a href="/doctor/create">
-                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 ml-3 float-right">{{ __('hospital.History') }} {{ __('appoint.add') }}</button>
+                <button
+                    class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 ml-3 float-right">{{ __('hospital.History') }}
+                    {{ __('appoint.add') }}</button>
             </a>
 
             {{-- add Doctor Button --}}
             <a href="/doctor/create">
-                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('hospital.doctor') }} {{ __('appoint.add') }}</button>
+                <button class="bg-blue-800 rounded-lg px-8 py-1 text-white mb-5 float-right">{{ __('hospital.doctor') }}
+                    {{ __('appoint.add') }}</button>
             </a>
 
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <tr class="text-lg text-white bg-gray-900 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="text-lg text-white bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                     <td scope="col" class="px-6 py-3">
-                        {{ __('appoint.Drname') }}
+                        profile
                     </td>
                     <td scope="col" class="px-6 py-3">
                         {{ __('hospital.age') }}
@@ -109,9 +131,12 @@
                     @forelse ($doctor as $dr)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td class="px-6 py-4">
-                                <a href="/doctor/{{ $dr->id }}" class="underline text-blue-800 font-bold">
-                                    Dr.{{ $dr->name }}
-                                </a>
+                                <img src="./storage/{{ $dr->d_photo }}" class="w-20 my-5 max-w-xl rounded-lg"
+                                    alt="image" name="drimage" id="drfile">
+                                
+                                    <a href="/doctor/{{ $dr->id }}" class="underline text-blue-800 font-bold">
+                                        Dr.{{ $dr->name }}
+                                    </a>
                             </td>
                             <td class="px-6 py-4">
                                 {{ $dr->age }}
@@ -123,7 +148,12 @@
                                 {{ $dr->phone }}
                             </td>
                             <td class="px-6 py-4">
+                                @if ($dr->doctorInfo)
                                 {{ $dr->doctorInfo->special }}
+                            @else
+                                No Doctor Info Available
+                            @endif
+                    
                             </td>
                             <td class="px-6 py-4">
                                 {{ $dr->doctorInfo->experience }}
@@ -151,13 +181,12 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="mt-4 mr-5">
+                {{ $doctor->links() }}
+            </div>
         </div>
 
     </div>
-    </div>
-
-    <div class="mt-4 mr-5">
-        {{ $doctor->links() }}
     </div>
 
 </body>

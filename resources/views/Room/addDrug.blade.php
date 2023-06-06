@@ -14,8 +14,16 @@
 <body>
     <div class="m-10">
         <h1 class="text-xl underline decoration-green-500 mb-4">{{ __('drug.addDrug') }}</h1>
-        <form action="/drug" method="POST">
+        <form action="/drug" method="POST"  enctype="multipart/form-data">
             @csrf
+
+            <div>
+                <img src="../storage/doctorProfile/default-image.jpg" class="w-40 my-5 rounded-lg" alt="image description"
+                    id="preview">
+                <input class="block w-auto text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="drfile" name="drimage" type="file" multiple>
+            </div>
+
             <div class="relative z-0 w-full mb-6 group">
                 <input type="text" name="drugName" id="drugName"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -67,7 +75,22 @@
         </form>
 
     </div>
-
+    
+<script>
+        document.getElementById('drfile').onchange = function(evt) {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+    
+            // FileReader support
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function() {
+                    document.getElementById('preview').src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
+            }
+        }
+    </script>
 </body>
 
 </html>

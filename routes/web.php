@@ -12,6 +12,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LoginFormController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\SignupController;
 use Illuminate\Support\Facades\App;
 
@@ -77,4 +78,6 @@ Route::get("/lang/{locale}", function ($locale) {
 Route::resource("/doctor", DoctorController::class);
 
 Route::resource("/history", HistoryController::class);
+
+Route::resource("/patient", PatientController::class);
 

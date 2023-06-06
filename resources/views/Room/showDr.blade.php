@@ -18,6 +18,7 @@
     text-gray-700 border justify-center  border-gray-200 
     rounded-lg justify shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="my-auto">
+            <img src="{{ asset('storage/'.$drData->d_photo) }}" class="w-auto my-5 rounded-lg" alt="image description" id="preview">
             <p>{{ __('appoint.Drname') }} : <span class="text-black font-bold">{{ $drData->name }}</span></p>
             <p class="py-5">{{ __('hospital.age') }} : <span class="text-black font-bold">{{ $drData->age }}</span></p>
             <p>{{ __('hospital.address') }} : <span class="text-black font-bold">{{ $drData->address }}</span></p>

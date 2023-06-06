@@ -21,6 +21,9 @@ class DoctorController extends Controller
         foreach ($doctorList as $key => $doctor) {
             $doctor_info = $doctor->doctorInfo;
         }
+        // $doctorList = Doctor::where('del_flg', '=', 0)
+        // ->orderBy('id', 'DESC')
+        // ->paginate(5);
         // dd($doctorList);
         return View("Room.doctorList", [
             "doctor" => $doctorList,
@@ -42,6 +45,10 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        if($request->hasFile("drimage")){
+            // dd("yes");
+            $file = $request->file("drimage");//access or get file
+        }
 
         $doctor = new Doctor();
         $doctor->insert($request);
@@ -54,6 +61,7 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
+        // dd("show id is $id");
         $doctor = new Doctor();
         $doctorInfo = $doctor->getDoctorById($id);
         
@@ -66,6 +74,7 @@ class DoctorController extends Controller
             ->select('doctors.*', 'doctor_infos.special', 'doctor_infos.experience', 'doctor_infos.liscen','histories.hospitalName','histories.level','histories.startDate','histories.endDate','histories.exper')
             ->find($id);
 
+            // dd($doctorData);
         return view("Room.showDr", [
             "drData" => $doctorData,
             "doctorInfo" => $doctorInfo

@@ -29,40 +29,61 @@
         </svg>
     </button>
 
-    <aside id="default-sidebar"
+    <aside id="sidebar-multi-level-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-900 dark:bg-gray-800">
-            <h3 class="text-2xl text-white text-center mt-8">{{ __('hospital.title') }}</h3>
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-200 dark:bg-gray-800">
+            <h3 class="text-2xl text-blue-800 font-bold mb-5 text-center mt-8">{{ __('hospital.title') }}</h3>
             <ul class="space-y-2 font-medium">
-                <li class="my-8 bg-gray-100 rounded-lg">
-                    <a href="#"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                {{-- dashboard link --}}
+                <li>
+                    <a href="/home"
+                        class="flex items-center p-2 text-gray-900 bg-blue-300 rounded-lg dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
-                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            class="w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
-                        <span class="ml-3 text-black">{{ __('hospital.dashboard') }}</span>
+                        <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
-                <li class="mt-10">
+
+                {{-- doctor link --}}
+                <li>
                     <a href="/doctor"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
-                            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            class="flex-shrink-0 w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap text-white hover:text-black">{{ __('hospital.Dr.list') }}</span>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Doctors</span>
+                        <span
+                            class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-white bg-blue-900 rounded-full dark:bg-gray-700 dark:text-gray-300">List</span>
                     </a>
                 </li>
+
+                {{-- patients link --}}
+                <li>
+                    <a href="/patient"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-300 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="flex-shrink-0 w-6 h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Patients</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </aside>
+
 
     <div class="p-4 sm:ml-64">
         <div class="flex flex-col">
@@ -70,7 +91,7 @@
             <div class="flex flex-row">
                 {{-- room table --}}
                 <div class="relative overflow-x-auto pt-10 w-1/2 mx-10">
-    
+
                     <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -90,6 +111,7 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <img src="{{ asset('storage/'.$rm->r_photo) }}" class="w-20 my-5 max-w-xl rounded-lg">
                                         {{ $rm->roomNumber }}
                                     </th>
                                     <td class="px-6 py-4">
@@ -111,7 +133,7 @@
                             class="btn bg-red-500 py-1 px-6 rounded-sm text-white mt-3 m-5 float-right">{{ __('room.see') }}</button>
                     </a>
                 </div>
-    
+
                 {{-- message Table --}}
                 <div class="relative overflow-x-auto w-1/2 mx-8 mt-5">
                     <span class="float-right mb-5 underline">
@@ -141,7 +163,7 @@
                                         <span class="float-right">
                                             {{ date('g:i A', strtotime($meg->created_at)) }}
                                         </span>
-    
+
                                         <div class="flex items-center">
                                             @if ($meg->type === 'VIP')
                                                 <span class="mr-2 flex items-center mt-2">
@@ -150,7 +172,8 @@
                                                         <path fill="currentColor"
                                                             d="M80 480a16 16 0 0 1-16-16V68.13a24 24 0 0 1 11.9-20.72C88 40.38 112.38 32 160 32c37.21 0 78.83 14.71 115.55 27.68C305.12 70.13 333.05 80 352 80a183.84 183.84 0 0 0 71-14.5a18 18 0 0 1 25 16.58v219.36a20 20 0 0 1-12 18.31c-8.71 3.81-40.51 16.25-84 16.25c-24.14 0-54.38-7.14-86.39-14.71C229.63 312.79 192.43 304 160 304c-36.87 0-55.74 5.58-64 9.11V464a16 16 0 0 1-16 16Z" />
                                                     </svg>
-                                                    <span class="text-warning fw-bold">{{ __('message.VIPmessage') }}</span>
+                                                    <span
+                                                        class="text-warning fw-bold">{{ __('message.VIPmessage') }}</span>
                                                 </span>
                                             @endif
                                         </div>
@@ -158,7 +181,7 @@
                                 </tr>
                             @empty
                             @endforelse
-    
+
                         </tbody>
                     </table>
                     <a href="/message">
@@ -168,7 +191,7 @@
                     </a>
                 </div>
             </div>
-    
+
             <div class="flex flex-row">
                 {{-- drug --}}
                 <div class="relative overflow-x-auto w-1/2 pt-5 mx-10 mb-10">
@@ -189,6 +212,7 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <img src="{{ asset('storage/'.$dg->dg_photo) }}" class="w-20 my-5 max-w-xl rounded-lg">
                                         {{ $dg->drugName }}
                                     </th>
                                     <td class="px-6 py-4">
@@ -211,7 +235,7 @@
                         </button>
                     </a>
                 </div>
-    
+
                 {{-- appointment --}}
                 <div class="relative overflow-x-auto w-1/2 pt-5 mx-8">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -239,12 +263,12 @@
                                     <td class="px-6 py-4">
                                         {{ $point->date }}
                                     </td>
-    
-    
+
+
                                 </tr>
                             @empty
                             @endforelse
-    
+
                         </tbody>
                     </table>
                     <a href="/point">
@@ -257,7 +281,7 @@
     </div>
     </div>
 
-    
+
 </body>
 
 </html>

@@ -55,8 +55,15 @@ class DrugController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->all());
+
         Log::channel("druglog")
             ->info("start store function of DrugController.");
+
+        if ($request->hasFile("drimage")) {
+            // dd("yes");
+            $file = $request->file("drimage"); //access or get file
+        }
 
         $drugs = new Drug();
         $drugs->insert($request);
@@ -82,7 +89,7 @@ class DrugController extends Controller
         Log::channel("druglog")
             ->info("end show function of DrugController.");
 
-
+        // dd($drugInfo);
         return view(
             "Room.showDrug",
             [

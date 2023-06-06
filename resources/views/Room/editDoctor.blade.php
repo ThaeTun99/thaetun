@@ -15,9 +15,17 @@
 <body>
     <div class="m-10">
         <h1 class="text-xl underline decoration-green-500 mb-4">{{ __('hospital.edit') }}</h1>
-        <form action="/doctor/{{ $doctorInfo->id }}" method="POST" onsubmit="return validateForm()">
+        <form action="/doctor/{{ $doctorInfo->id }}" method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+
+            <div>
+                <img src="{{ asset('storage/'.$doctorInfo->d_photo) }}" class="w-40 my-5 rounded-lg" alt="image description" id="preview">
+                <input class="block w-auto text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="drfile" name="drimage" type="file" multiple
+                    >
+            </div>
+            
             <div class="relative z-0 w-full my-8 group">
                 <input type="text" name="name" id="name"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -139,24 +147,21 @@
     </form>
 
     </div>
-    {{-- <script>
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-        const experInput = document.getElementById('result');
-        endDateInput.addEventListener('input', calculateDifference);
-
-        function calculateDifference() {
-
-            const startDate = new Date(startDateInput.value);
-            const endDate = new Date(endDateInput.value);
-
-            var startYear = startDate.getFullYear();
-            var endYear = endDate.getFullYear();
-            var differenceInYears = endYear - startYear;
-
-            experInput.value = differenceInYears;
+    <script>
+        document.getElementById('drfile').onchange = function(evt) {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+    
+            // FileReader support
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function() {
+                    document.getElementById('preview').src = fr.result;
+                }
+                fr.readAsDataURL(files[0]);
+            }
         }
-    </script> --}}
+    </script>
 </body>
 
 </html>

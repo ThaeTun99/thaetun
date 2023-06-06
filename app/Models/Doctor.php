@@ -11,17 +11,23 @@ class Doctor extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function getAll()
     {
-        // return DB::table("doctors")
-        // ->join('doctor_infos','doctors.id','=','doctor_infos.doctor_id')
-        // ->orderBy("doctors.id","DESC")
-        // // ->take(5)
-        // ->get();
-
+        // dd($doctorList);
         return Doctor::where("del_flg", "=", 0)
-            ->orderBy("doctors.id", "DESC")
-            ->paginate(5);
+            ->orderBy("id", "DESC")
+            ->paginate(3);
+    }
+    public function getAllDoctor()
+    {
+        // dd($doctorList);
+        return Doctor::where("del_flg", "=", 0)
+            ->orderBy("id", "DESC")
+            ->get();
     }
 
     public function getDoctorById($id)
@@ -36,6 +42,13 @@ class Doctor extends Model
         $doctor->age = $request->age;
         $doctor->address = $request->address;
         $doctor->phone = $request->phone;
+
+        if ($request->hasFile("drimage")) {
+            $file = $request->file("drimage");
+            $path = $file->store('doctorProfile');
+            $doctor->d_photo = $path;
+        }
+
 
         $doctor->doctorInfo->special = $request->special;
         $doctor->doctorInfo->experience = $request->experience;
@@ -76,23 +89,24 @@ class Doctor extends Model
             ]);
     }
 
-    public function doctorInfo()
-    {
-        return $this->hasOne(DoctorInfo::class);
-    }
-
-    public function histories()
-    {
-        return $this->hasMany(History::class);
-    }
 
     public function insert(Request $request)
     {
+        $path = null;
+        if ($request->hasFile("drimage")) {
+            // dd("yes");
+            $file = $request->file("drimage"); //access or get file
+            // save on server
+            $path = $file->store('doctorProfile');
+            // dd($path);
+        }
+
         $doctor = new Doctor();
         $doctor->name = $request->name;
         $doctor->age = $request->age;
         $doctor->address = $request->address;
         $doctor->phone = $request->phone;
+        $doctor->d_photo = $path;
         $doctor->save();
 
         $doctorInfo = new DoctorInfo();
@@ -119,6 +133,27 @@ class Doctor extends Model
             $doctor->doctorInfo()->save($doctorInfo);
             $doctor->histories()->saveMany($histories);
         }
+
+        $patient = Patient::find($request->drCount);
+        $doctor->patients()->attach(($patient));
+        // $patient->doctors()->attach($request->input('drCount'));
+
         $doctor->doctorInfo()->save($doctorInfo);
+        // dd($request->all());
+    }
+
+    public function doctorInfo()
+    {
+        return $this->hasOne(DoctorInfo::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class);
     }
 }

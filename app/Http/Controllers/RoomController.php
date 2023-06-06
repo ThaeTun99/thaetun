@@ -58,8 +58,15 @@ public function __construct(){
      */
     public function store(Request $request)
     {
+
+        // dd($request->all());
         Log::channel("roomlog")
             ->info("start store function of RoomController.");
+
+            if($request->hasFile("drimage")){
+                // dd("yes");
+                $file = $request->file("drimage");//access or get file
+            }
 
         $room = new Room();
         $room->insert($request);
@@ -86,6 +93,7 @@ public function __construct(){
         Log::channel("roomlog")
             ->info("end show function of RoomController.");
 
+            // dd($roomInfo);
         return view(
             "Room.showRoom",
             [

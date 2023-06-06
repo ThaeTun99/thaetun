@@ -38,6 +38,7 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td scope="row"
                             class="px-6 py-4 font-bold text-blue-900 whitespace-nowrap underline dark:text-white">
+                            <img src="{{ asset('storage/'.$rm->r_photo) }}" class="w-20 my-5 max-w-xl rounded-lg">
                             <a href="/room/{{ $rm->id }}">
                                 {{ $rm->roomNumber }}
                             </a>

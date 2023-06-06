@@ -51,12 +51,22 @@ class Drug extends Model
         Log::channel("druglog")
         ->info("start insert function of DrugModel.");
 
+        $path = null;
+        if ($request->hasFile("drimage")) {
+            // dd("yes");
+            $file = $request->file("drimage"); //access or get file
+            // save on server
+            $path = $file->store('drugPhoto');
+            // dd($path);
+        }
+
         DB::table("drugs")
         ->insert([
             "drugName" => $request->drugName,
             "amount" => $request->amount,
             "eachPrice" => $request->eachPrice,
-            "stock" => $request->stock
+            "stock" => $request->stock,
+            "dg_photo" => $path,
         ]);
     }
 
@@ -74,6 +84,14 @@ class Drug extends Model
         Log::channel("druglog")
         ->info("start update function of DrugModel.");
 
+        $path = null;
+        if ($request->hasFile("drimage")) {
+            // dd("yes");
+            $file = $request->file("drimage"); //access or get file
+            // save on server
+            $path = $file->store('drugPhoto');
+
+
         DB::table("drugs")
         ->where("id","=",$id)
         ->update([
@@ -81,9 +99,19 @@ class Drug extends Model
             "amount" => $request->amount,
             "eachPrice" => $request->eachPrice,
             "stock" => $request->stock,
+            "dg_photo" => $path,
         ]);
     }
-
+    DB::table("drugs")
+    ->where("id","=",$id)
+    ->update([
+        "drugName" => $request->drugName,
+        "amount" => $request->amount,
+        "eachPrice" => $request->eachPrice,
+        "stock" => $request->stock,
+        // "dg_photo" => $path,
+    ]);
+    }
     public function DeleteDrugList($id)
     {
         Log::channel("druglog")
