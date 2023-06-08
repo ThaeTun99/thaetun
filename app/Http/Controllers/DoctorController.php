@@ -21,10 +21,7 @@ class DoctorController extends Controller
         foreach ($doctorList as $key => $doctor) {
             $doctor_info = $doctor->doctorInfo;
         }
-        // $doctorList = Doctor::where('del_flg', '=', 0)
-        // ->orderBy('id', 'DESC')
-        // ->paginate(5);
-        // dd($doctorList);
+        
         return View("Room.doctorList", [
             "doctor" => $doctorList,
         ]);

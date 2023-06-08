@@ -70,7 +70,7 @@ Route::get("/lang/{locale}", function ($locale) {
     // return $locale;
     // App::setLocale($locale);
 
-    session()->put("locale",$locale);
+    session()->put("locale", $locale);
 
     return redirect()->back();
 });
@@ -81,3 +81,11 @@ Route::resource("/history", HistoryController::class);
 
 Route::resource("/patient", PatientController::class);
 
+Route::get('/userinfo', function () {
+    $info = [
+        'name' => 'john',
+        'age' => 23,
+        'married' => false
+    ];
+    return view('Room.layout', ['user' => $info]);
+});
